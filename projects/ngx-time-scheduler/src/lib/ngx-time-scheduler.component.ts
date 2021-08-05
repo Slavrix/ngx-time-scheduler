@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, ElementRef, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {ChangeDetectorRef, Component, ElementRef, Input, OnDestroy, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {CdkDragDrop} from '@angular/cdk/drag-drop';
 import {NgxTimeSchedulerService} from './ngx-time-scheduler.service';
 import {
@@ -33,7 +33,7 @@ export class NgxTimeSchedulerComponent implements OnInit, OnDestroy {
   @Input() showGoto = true;
   @Input() showToday = true;
   @Input() allowDragging = false;
-  // @Input() allowResizing = false;
+  @Input() allowResizing = false;
   @Input() locale = '';
   @Input() showBusinessDayOnly = false;
   @Input() headerFormat = 'Do MMM YYYY';
@@ -45,6 +45,7 @@ export class NgxTimeSchedulerComponent implements OnInit, OnDestroy {
   @Input() periods: Period[];
   @Input() events: Events = new Events();
   @Input() start = moment().startOf('day');
+  @Input() customEventTemplate: TemplateRef<any>
 
   end = moment().endOf('day');
   showGotoModal = false;

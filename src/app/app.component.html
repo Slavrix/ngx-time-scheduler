@@ -4,7 +4,9 @@
   [sections]="sections"
   [events]="events"
   [showBusinessDayOnly]="false"
+  [customEventTemplate]="myEventTemplate"
   [allowDragging]="true"
+  [minRowHeight]="48"
 ></ngx-ts>
 
 <h3>Event output</h3>
@@ -24,3 +26,19 @@
 <button (click)="popSection()">Pop Section</button>
 <button (click)="removeSection()">Remove Section</button>
 <button (click)="refresh()">Refresh</button>
+
+<ng-template #myEventTemplate let-itemMeta="itemMeta">
+  <div class="time-sch-item-content" [style]="{
+      'border-left': '8px solid red',
+      'background-color': 'lightgray',
+      'color': 'black',
+      'display': 'flex',
+      'flex-direction': 'column',
+      'flex-wrap': 'wrap',
+      'align-content': 'flex-start'
+    }"
+      [title]="itemMeta.item.tooltip? itemMeta.item.tooltip : ''">
+    <div [style]="{'flex':'0 0 24px'}">{{itemMeta.item.name}}</div>
+    <div [style]="{'flex':'0 0 24px'}">{{itemMeta.item.start | date: 'shortTime'}} - {{itemMeta.item.end | date: 'shortTime'}}</div>
+  </div>
+</ng-template>
