@@ -96,10 +96,19 @@
                  [style.width]="'calc('+ itemMeta.cssWidth + '% - 6px)'"
             ></div>
             <div class="time-sch-item-start" *ngIf="itemMeta.isStart"></div>
-            <div class="time-sch-item-content"
-                 [title]="itemMeta.item.tooltip? itemMeta.item.tooltip : ''">
-              {{itemMeta.item.name}}
-            </div>
+            <ng-template #defaultEventTemplate let-itemMeta="itemMeta">
+              <div class="time-sch-item-content"
+                  [title]="itemMeta.item.tooltip? itemMeta.item.tooltip : ''">
+                {{itemMeta.item.name}}
+              </div>
+            </ng-template>
+            <ng-template
+            [ngTemplateOutlet]="customEventTemplate || defaultEventTemplate"
+            [ngTemplateOutletContext]="{
+              itemMeta: itemMeta
+            }"
+          >
+          </ng-template>
             <div class="time-sch-item-end" *ngIf="itemMeta.isEnd"></div>
           </div>
         </div>

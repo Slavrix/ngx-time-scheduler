@@ -62,6 +62,16 @@ export class AppComponent implements OnInit {
         classes: '',
         timeFrameOverall: 1440 * 7,
         timeFramePeriod: 1440,
+      },
+      {
+        name: '1 Day',
+        classes: '',
+        timeFramePeriod: 60,
+        timeFrameOverall: 1440,
+        timeFrameHeaders: [
+          'Do MMM',
+          'HH'
+        ],
       }];
 
     this.sections = [{
