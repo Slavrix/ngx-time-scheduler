@@ -1,10 +1,10 @@
 # Angular Time Scheduler
-[![GitHub issues](https://img.shields.io/github/issues/abhishekjain12/ngx-time-scheduler.svg)](https://github.com/abhishekjain12/ngx-time-scheduler/issues)
+<!-- [![GitHub issues](https://img.shields.io/github/issues/abhishekjain12/ngx-time-scheduler.svg)](https://github.com/abhishekjain12/ngx-time-scheduler/issues)
 [![GitHub forks](https://img.shields.io/github/forks/abhishekjain12/ngx-time-scheduler.svg)](https://github.com/abhishekjain12/ngx-time-scheduler/network)
 [![GitHub stars](https://img.shields.io/github/stars/abhishekjain12/ngx-time-scheduler.svg)](https://github.com/abhishekjain12/ngx-time-scheduler/stargazers)
 [![GitHub license](https://img.shields.io/github/license/abhishekjain12/ngx-time-scheduler.svg)](https://github.com/abhishekjain12/ngx-time-scheduler/blob/master/LICENSE)
 [![latest](https://img.shields.io/npm/v/ngx-time-scheduler/latest.svg)](http://www.npmjs.com/package/ngx-time-scheduler) 
-[![npm](https://img.shields.io/npm/dt/ngx-time-scheduler.svg)](https://www.npmjs.com/packagengx-time-scheduler)
+[![npm](https://img.shields.io/npm/dt/ngx-time-scheduler.svg)](https://www.npmjs.com/packagengx-time-scheduler) -->
 
 A simple Angular Timeline Scheduler library
 
@@ -174,6 +174,7 @@ export class AppComponent implements OnInit {
 | text                  | No        | Text      | `new Text()`              | An object containing the text use in the scheduler, to be easily customized. |
 | start                 | No        | moment    | `moment().startOf('day')` | The start time of the scheduler as a moment object. It's recommend to use `.startOf('day')`  on the moment for a clear starting point. |
 | locale                | No        | string    | `` (empty === 'en')       | To load a locale, pass the key and the string values to `moment.locale`. By default, Moment.js uses English (United States) locale strings. |
+| customEventTemplate   | No        | TemplateRef<any> | `defaultTemplate` | Add your own custom template for even content. minRowHeight may need to be adjusted for proper usage.
 
 **NOTE:** Date locale is currently not available for Goto(button) datepicker. It will apply a date locale as per the user's system setting. Feel free to provide suggestions.
 
@@ -256,12 +257,12 @@ A selection of events are provided to hook into when creating the scheduler, and
 **NOTE:** To prevent the default context menu of the browser, use event.preventDefault() in an event.ItemContextMenu() or event.SectionContextMenuEvent() function.
 
 # Demo
-[Demo](https://abhishekjain12.github.io/ngx-time-scheduler/)
+[Demo](https://slavrix.github.io/ngx-time-scheduler/)
 
 
 # Credits
 This time scheduler is based on the work done by [Zallist](https://github.com/Zallist/TimeScheduler).
-
+Forked from : [abhishekjain12/ngx-time-scheduler](https://github.com/abhishekjain12/ngx-time-scheduler).
 
 # License
 [MIT license](http://en.m.wikipedia.org/wiki/MIT_License)
