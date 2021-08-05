@@ -10,9 +10,13 @@ A simple Angular Timeline Scheduler library
 
 
 # Installation
-Install via [NPM](https://npmjs.com)
+<!-- Install via [NPM](https://npmjs.com)
 ```
 npm i ngx-time-scheduler
+``` -->
+Install via GitHub
+```
+npm i git+https://github.com/Slavrix/ngx-time-scheduler.git
 ```
 
 
