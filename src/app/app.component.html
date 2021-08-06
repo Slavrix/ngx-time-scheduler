@@ -38,7 +38,7 @@
       'align-content': 'flex-start'
     }"
       [title]="itemMeta.item.tooltip? itemMeta.item.tooltip : ''">
-    <div [style]="{'flex':'0 0 24px'}">{{itemMeta.item.name}}</div>
-    <div [style]="{'flex':'0 0 24px'}">{{itemMeta.item.start | date: 'shortTime'}} - {{itemMeta.item.end | date: 'shortTime'}}</div>
+    <div class="mat-body-2" [style]="{'flex':'0 0 24px'}">{{itemMeta.item.name}}</div>
+    <div class="mat-body-1" [style]="{'flex':'0 0 24px'}">{{itemMeta.item.start | date: 'shortTime'}} - {{itemMeta.item.end | date: 'shortTime'}}</div>
   </div>
 </ng-template>
