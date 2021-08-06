@@ -1,0 +1,13 @@
+@import '~@angular/material/prebuilt-themes/indigo-pink.css';
+
+.example-button-row {
+  display: table-cell;
+}
+
+.example-button-row .mat-button-base {
+  margin: 0 4px;
+}
+
+mat-form-field {
+  width: 50%;
+}

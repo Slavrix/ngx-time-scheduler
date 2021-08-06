@@ -2,7 +2,8 @@
   "extends": "../tsconfig.json",
   "compilerOptions": {
     "outDir": "../out-tsc/app",
-    "types": []
+    "types": [],
+    "paths": {"ngx-time-scheduler": ["../dist/ngx-time-scheduler"]}
   },
   "files": [
     "main.ts",

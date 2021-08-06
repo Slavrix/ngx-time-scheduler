@@ -3,29 +3,35 @@
   [periods]="periods"
   [sections]="sections"
   [events]="events"
+  [locale]="'en-AU'"
   [showBusinessDayOnly]="false"
   [customEventTemplate]="myEventTemplate"
   [allowDragging]="true"
+  [allowResizing]="false"
   [minRowHeight]="48"
 ></ngx-ts>
 
-<h3>Event output</h3>
-<label>
-  <textarea
-    placeholder="Event output"
-    [(ngModel)]="eventOutput"
-    name="event-output"
-    style="width: 80%; height: 50px"></textarea>
-</label>
-<br>
+<mat-form-field appearance="outline">
+  <mat-label>Event output</mat-label>
+  <textarea matInput
+            cdkTextareaAutosize
+            #autosize="cdkTextareaAutosize"
+            cdkAutosizeMinRows="5"
+            cdkAutosizeMaxRows="40"
+            [(ngModel)]="eventOutput">
+  </textarea>
+</mat-form-field>
 
-<button (click)="addItem()">Add Item</button>
-<button (click)="popItem()">Pop Item</button>
-<button (click)="removeItem()">Remove Item</button>
-<button (click)="addSection()">Add Section</button>
-<button (click)="popSection()">Pop Section</button>
-<button (click)="removeSection()">Remove Section</button>
-<button (click)="refresh()">Refresh</button>
+<br>
+<div class="example-button-row">
+  <button mat-raised-button (click)="addItem()">Add Item</button>
+  <button mat-raised-button (click)="popItem()">Pop Item</button>
+  <button mat-raised-button (click)="removeItem()">Remove Item</button>
+  <button mat-raised-button (click)="addSection()">Add Section</button>
+  <button mat-raised-button (click)="popSection()">Pop Section</button>
+  <button mat-raised-button (click)="removeSection()">Remove Section</button>
+  <button mat-raised-button (click)="refresh()">Refresh</button>
+</div>
 
 <ng-template #myEventTemplate let-itemMeta="itemMeta">
   <div class="time-sch-item-content" [style]="{

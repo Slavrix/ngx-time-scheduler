@@ -6,6 +6,12 @@
   },
   "whitelistedNonPeerDependencies": [
     "@angular/cdk",
+    "@angular/material",
+    "@angular/animations",
+    "@angular/common",
+    "@angular/core",
+    "@angular/forms",
+    "@angular/material-moment-adapter",
     "moment"
   ]
 }

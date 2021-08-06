@@ -12,16 +12,17 @@
     </div>
 
     <div class="time-sch-time-container example-button-row">
-      <button mat-raised-button color="primary" *ngIf="showGoto" (click)="showGotoModal = !showGotoModal">{{text.GotoButton}}</button>
-      <div *ngIf="showGotoModal">
-        <!-- <label>
-          <input type="date" (change)="gotoDate($event.target.value)">
-        </label> -->
-        <mat-label>Choose a date</mat-label>
-        <input matInput [matDatepicker]="picker" (change)="gotoDate($event.target.value)">
-        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-        <mat-datepicker #picker></mat-datepicker>
-      </div>
+      <button mat-raised-button color="primary" *ngIf="showGoto" (click)="dp.open()">Go To</button>
+      <input matInput [matDatepicker]="dp" hidden (dateChange)="gotoDate($event.target.value)">
+      <mat-datepicker #dp disabled="false"></mat-datepicker>
+      <!-- <button mat-raised-button color="primary" *ngIf="showGoto" [matMenuTriggerFor]="gotoModal">{{text.GotoButton}}</button>
+      <mat-menu #gotoModal="matMenu">
+        <mat-form-field appearance="outline">
+          <input matInput [matDatepicker]="picker" placeholder="Choose a date" (dateChange)="gotoDate($event.target.value)">
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+      </mat-menu> -->
 
       <button mat-raised-button color="primary" *ngIf="showToday" (click)="gotoToday()">{{text.TodayButton}}</button>
       <button mat-raised-button color="primary" (click)="previousPeriod()">{{text.PrevButton}}</button>
