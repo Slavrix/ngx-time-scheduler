@@ -9,7 +9,7 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "postinstall": "ngcc",
-    "ng:build:demo": "ng build --aot --prod --base-href=https://abhishekjain12.github.io/ngx-time-scheduler/",
+    "ng:build:demo": "ng build --aot --prod --base-href=https://slavrix.github.io/ngx-time-scheduler/",
     "deploy": "npm run ng:build:demo && gh-pages -d dist/demo",
     "build_lib": "ng build NgxTimeScheduler",
     "copy_license": "cp ./LICENSE ./dist/ngx-time-scheduler",

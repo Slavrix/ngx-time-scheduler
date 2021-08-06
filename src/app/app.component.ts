@@ -173,8 +173,8 @@ export class AppComponent implements OnInit {
       id: this.itemCount,
       sectionID: 5,
       name: 'Item ' + this.itemCount,
-      start: moment().startOf('day'),
-      end: moment().add(3, 'days').endOf('day'),
+      start: moment().startOf('day').add(5, 'h'),
+      end: moment().add(3, 'days').endOf('day').add(5, 'h'),
       classes: ''
     });
   }
