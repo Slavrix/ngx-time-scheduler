@@ -3,7 +3,8 @@ import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import {NgxTimeSchedulerModule} from '../../projects/ngx-time-scheduler/src/lib/ngx-time-scheduler.module';
 import {FormsModule} from '@angular/forms';
-import {MatIconModule} from '@angular/material/icon';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import { DemoMaterialModule } from './material.module';
 
 @NgModule({
   declarations: [
@@ -11,9 +12,10 @@ import {MatIconModule} from '@angular/material/icon';
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     NgxTimeSchedulerModule,
     FormsModule,
-    MatIconModule
+    DemoMaterialModule
   ],
   providers: [],
   bootstrap: [AppComponent]

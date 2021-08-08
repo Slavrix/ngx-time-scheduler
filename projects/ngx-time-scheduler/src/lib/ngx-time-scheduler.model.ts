@@ -28,17 +28,9 @@ export class Section {
 }
 
 export class Text {
-  NextButton: string;
-  PrevButton: string;
-  TodayButton: string;
-  GotoButton: string;
   SectionTitle: string;
 
   constructor() {
-    this.NextButton = 'Next';
-    this.PrevButton = 'Prev';
-    this.TodayButton = 'Today';
-    this.GotoButton = 'Go to';
     this.SectionTitle = 'Section';
   }
 }

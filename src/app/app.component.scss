@@ -1,0 +1,26 @@
+.example-button-row {
+  display: table-cell;
+}
+
+.time-sch-header-wrapper {
+  position: relative;
+  padding: .5em;
+}
+
+.time-sch-period-container {
+  float: left;
+  position: relative;
+}
+
+.time-sch-time-container {
+  float: right;
+  position: relative;
+}
+
+.example-button-row .mat-button-base {
+  margin: 0 4px;
+}
+
+.w-50p {
+  width: 50%;
+}

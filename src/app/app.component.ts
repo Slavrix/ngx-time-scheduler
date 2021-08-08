@@ -1,4 +1,5 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
+import {CdkTextareaAutosize} from '@angular/cdk/text-field';
 import {Item, Period, Section, Events} from '../../projects/ngx-time-scheduler/src/lib/ngx-time-scheduler.model';
 import {NgxTimeSchedulerService} from '../../projects/ngx-time-scheduler/src/lib/ngx-time-scheduler.service';
 import * as moment from 'moment';
@@ -6,9 +7,12 @@ import * as moment from 'moment';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
+
+  @ViewChild('autosize') autosize: CdkTextareaAutosize;
+
   eventOutput = '';
 
   events: Events = new Events();
@@ -17,6 +21,13 @@ export class AppComponent implements OnInit {
   items: Item[];
   itemCount = 3;
   sectionCount = 10;
+  showGoto = true;
+  showToday = true;
+  headerFormat = 'Do MMM YYYY';
+  locale = 'en-AU';
+  start = moment().startOf('day');
+  end = moment().endOf('day');
+  currentPeriod: Period;
 
   constructor(private service: NgxTimeSchedulerService) {
     this.events.SectionClickEvent = (section) => {
@@ -161,7 +172,8 @@ export class AppComponent implements OnInit {
       end: moment().add(7, 'days').endOf('day'),
       classes: ''
     }];
-
+    this.currentPeriod = this.periods[0];
+    this.resetEnd();
   }
 
   ngOnInit() {
@@ -205,6 +217,35 @@ export class AppComponent implements OnInit {
 
   refresh() {
     this.service.refresh();
+  }
+
+  changePeriod(period) {
+    this.currentPeriod = period;
+    this.resetEnd();
+  }
+
+  resetEnd() {
+    this.end = moment(this.start).add(this.currentPeriod.timeFrameOverall, 'minutes').endOf('day');
+  }
+
+  gotoToday() {
+    this.start = moment().startOf('day');
+    this.resetEnd();
+  }
+
+  nextPeriod() {
+    this.start = moment(this.start).add(this.currentPeriod.timeFrameOverall, 'minutes');
+    this.resetEnd();
+  }
+
+  previousPeriod() {
+    this.start = moment(this.start).subtract(this.currentPeriod.timeFrameOverall, 'minutes');
+    this.resetEnd();
+  }
+
+  gotoDate(event: any) {
+    this.start = moment(event).startOf('day');
+    this.resetEnd();
   }
 
 }

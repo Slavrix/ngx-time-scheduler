@@ -1,6 +1,6 @@
 <div class="time-sch-wrapper" [style.height]="maxHeight">
-  <div class="time-sch-header-wrapper">
-    <div class="time-sch-period-container example-button-row">
+  <!-- <div class="time-sch-header-wrapper"> -->
+    <!-- <div class="time-sch-period-container example-button-row">
       <button mat-raised-button color="primary"
               *ngFor="let period of periods"
               [ngClass]="period.classes"
@@ -9,35 +9,36 @@
       >
         {{period.name}}
       </button>
-    </div>
+    </div> -->
 
-    <div class="time-sch-time-container example-button-row">
-      <button mat-raised-button color="primary" *ngIf="showGoto" (click)="showGotoModal = !showGotoModal">{{text.GotoButton}}</button>
-      <div *ngIf="showGotoModal">
-        <!-- <label>
-          <input type="date" (change)="gotoDate($event.target.value)">
-        </label> -->
-        <mat-label>Choose a date</mat-label>
-        <input matInput [matDatepicker]="picker" (change)="gotoDate($event.target.value)">
-        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-        <mat-datepicker #picker></mat-datepicker>
-      </div>
+    <!-- <div class="time-sch-time-container example-button-row">
+      <button mat-raised-button color="primary" *ngIf="showGoto" (click)="dp.open()">Go To</button>
+      <input matInput [matDatepicker]="dp" hidden (dateChange)="gotoDate($event.target.value)">
+      <mat-datepicker #dp disabled="false"></mat-datepicker> -->
+      <!-- <button mat-raised-button color="primary" *ngIf="showGoto" [matMenuTriggerFor]="gotoModal">{{text.GotoButton}}</button>
+      <mat-menu #gotoModal="matMenu">
+        <mat-form-field appearance="outline">
+          <input matInput [matDatepicker]="picker" placeholder="Choose a date" (dateChange)="gotoDate($event.target.value)">
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+      </mat-menu> -->
 
-      <button mat-raised-button color="primary" *ngIf="showToday" (click)="gotoToday()">{{text.TodayButton}}</button>
+      <!-- <button mat-raised-button color="primary" *ngIf="showToday" (click)="gotoToday()">{{text.TodayButton}}</button>
       <button mat-raised-button color="primary" (click)="previousPeriod()">{{text.PrevButton}}</button>
       <button mat-raised-button color="primary" (click)="nextPeriod()">{{text.NextButton}}</button>
-    </div>
+    </div> -->
 
-    <h3 class="mat-h2 text-center m-0">
+    <!-- <h3 class="mat-h2 text-center m-0">
       {{ start.locale(locale).format(headerFormat) + ' - ' + end.locale(locale).format(headerFormat)}}
     </h3>
-  </div>
+  </div> -->
 
   <div class="time-sch-table-wrapper">
     <table class="time-sch-table mat-table ">
       <tr *ngFor="let timeFrameHeader of header; let i = index; trackBy: trackByFn">
 
-        <td class="mat-h3 time-sch-section text-center" *ngIf="i === 0" [rowSpan]="periods.length">
+        <td class="mat-h3 time-sch-section text-center" *ngIf="i === 0" [rowSpan]="2">
           {{text.SectionTitle}}
         </td>
 

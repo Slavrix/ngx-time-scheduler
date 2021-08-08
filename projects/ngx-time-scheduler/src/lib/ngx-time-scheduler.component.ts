@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, ElementRef, Input, OnDestroy, OnInit, TemplateRef, ViewChild} from '@angular/core';
+import {ChangeDetectorRef, Component, ElementRef, Input, OnChanges, OnDestroy, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {CdkDragDrop} from '@angular/cdk/drag-drop';
 import {NgxTimeSchedulerService} from './ngx-time-scheduler.service';
 import {
@@ -18,11 +18,11 @@ import {Subscription} from 'rxjs';
 const moment = moment_;
 
 @Component({
-  selector: 'ngx-ts[items][periods][sections]',
+  selector: 'ngx-ts[items][period][sections]',
   templateUrl: './ngx-time-scheduler.component.html',
-  styleUrls: ['./ngx-time-scheduler.component.css']
+  styleUrls: ['./ngx-time-scheduler.component.scss']
 })
-export class NgxTimeSchedulerComponent implements OnInit, OnDestroy {
+export class NgxTimeSchedulerComponent implements OnInit, OnDestroy, OnChanges {
   @ViewChild('sectionTd') set SectionTd(elementRef: ElementRef) {
     this.SectionLeftMeasure = elementRef.nativeElement.clientWidth + 'px';
     this.changeDetector.detectChanges();
@@ -30,22 +30,19 @@ export class NgxTimeSchedulerComponent implements OnInit, OnDestroy {
 
   @Input() currentTimeFormat = 'DD-MMM-YYYY HH:mm';
   @Input() showCurrentTime = true;
-  @Input() showGoto = true;
-  @Input() showToday = true;
   @Input() allowDragging = false;
   @Input() allowResizing = false;
-  @Input() locale = '';
+  @Input() locale: string = '';
   @Input() showBusinessDayOnly = false;
-  @Input() headerFormat = 'Do MMM YYYY';
   @Input() minRowHeight = 40;
   @Input() maxHeight: string = null;
   @Input() text = new Text();
   @Input() items: Item[];
   @Input() sections: Section[];
-  @Input() periods: Period[];
+  @Input() period: Period;
   @Input() events: Events = new Events();
-  @Input() start = moment().startOf('day');
   @Input() customEventTemplate: TemplateRef<any>
+  @Input() start = moment().startOf('day');
 
   end = moment().endOf('day');
   showGotoModal = false;
@@ -69,7 +66,7 @@ export class NgxTimeSchedulerComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.setSectionsInSectionItems();
-    this.changePeriod(this.periods[0], false);
+    this.changePeriod(this.period, false);
     this.itemPush();
     this.itemPop();
     this.itemRemove();
@@ -77,6 +74,17 @@ export class NgxTimeSchedulerComponent implements OnInit, OnDestroy {
     this.sectionPop();
     this.sectionRemove();
     this.refresh();
+  }
+
+  ngOnChanges(changes: any): void {
+    console.log(changes);
+    console.log(changes.period);
+    if(changes.period) {
+      this.currentPeriod = changes.period.currentValue;
+      this.refreshView();
+    } else if(changes.start) {
+      this.refreshView();
+    }
   }
 
   refreshView() {
@@ -187,28 +195,29 @@ export class NgxTimeSchedulerComponent implements OnInit, OnDestroy {
     }
   }
 
-  changePeriod(period: Period, userTrigger: boolean = true) {
-    this.currentPeriod = period;
-    const _start = this.start;
-    this.end = moment(_start).add(this.currentPeriod.timeFrameOverall, 'minutes').endOf('day');
-    this.currentPeriodMinuteDiff = Math.abs(this.start.diff(this.end, 'minutes'));
+  changePeriod(period, userTrigger) {
+      console.log(period, userTrigger);
+      this.currentPeriod = period;
+      const _start = this.start;
+      this.end = moment(_start).add(this.currentPeriod.timeFrameOverall, 'minutes').endOf('day');
+      this.currentPeriodMinuteDiff = Math.abs(this.start.diff(this.end, 'minutes'));
 
-    if (userTrigger && this.events.PeriodChange) {
-      this.events.PeriodChange(this.start, this.end);
-    }
+      if (userTrigger && this.events.PeriodChange) {
+        this.events.PeriodChange(this.start, this.end);
+      }
 
-    if (this.showBusinessDayOnly) {
-      this.currentPeriodMinuteDiff -=
-        (this.getNumberOfWeekendDays(moment(this.start), moment(this.end)) * this.currentPeriod.timeFramePeriod);
-    }
+      if (this.showBusinessDayOnly) {
+        this.currentPeriodMinuteDiff -=
+          (this.getNumberOfWeekendDays(moment(this.start), moment(this.end)) * this.currentPeriod.timeFramePeriod);
+      }
 
-    this.header = new Array<Header>();
-    this.currentPeriod.timeFrameHeaders.forEach((ele: string, index: number) => {
-      this.header.push(this.getDatesBetweenTwoDates(ele, index));
-    });
+      this.header = new Array<Header>();
+      this.currentPeriod.timeFrameHeaders.forEach((ele: string, index: number) => {
+        this.header.push(this.getDatesBetweenTwoDates(ele, index));
+      });
 
-    this.setItemsInSectionItems();
-    this.showCurrentTimeIndicator();
+      this.setItemsInSectionItems();
+      this.showCurrentTimeIndicator();
   }
 
   showCurrentTimeIndicator = () => {
@@ -227,27 +236,6 @@ export class NgxTimeSchedulerComponent implements OnInit, OnDestroy {
       this.currentTimeVisibility = 'hidden';
     }
     this.ShowCurrentTimeHandle = setTimeout(this.showCurrentTimeIndicator, 30000);
-  }
-
-  gotoToday() {
-    this.start = moment().startOf('day');
-    this.changePeriod(this.currentPeriod);
-  }
-
-  nextPeriod() {
-    this.start.add(this.currentPeriod.timeFrameOverall, 'minutes');
-    this.changePeriod(this.currentPeriod);
-  }
-
-  previousPeriod() {
-    this.start.subtract(this.currentPeriod.timeFrameOverall, 'minutes');
-    this.changePeriod(this.currentPeriod);
-  }
-
-  gotoDate(event: any) {
-    this.showGotoModal = false;
-    this.start = moment(event).startOf('day');
-    this.changePeriod(this.currentPeriod);
   }
 
   getDatesBetweenTwoDates(format: string, index: number): Header {
