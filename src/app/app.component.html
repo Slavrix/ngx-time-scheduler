@@ -1,17 +1,56 @@
+<div class="time-sch-header-wrapper">
+  <div class="time-sch-period-container example-button-row">
+    <button mat-raised-button color="primary"
+            *ngFor="let period of periods"
+            [ngClass]="period.classes"
+            (click)="changePeriod(period)"
+            [title]="period.tooltip? period.tooltip : ''"
+    >
+      {{period.name}}
+    </button>
+  </div>
+
+  <div class="time-sch-time-container example-button-row">
+    <button mat-raised-button color="primary" *ngIf="showGoto" (click)="dp.open()">Go To</button>
+    <mat-form-field class="cdk-visually-hidden" appearance="outline">
+      <input matInput [matDatepicker]="dp" hidden (dateChange)="gotoDate($event.target.value)">
+      <mat-datepicker #dp disabled="false"></mat-datepicker>
+    </mat-form-field>
+    <!-- <button mat-raised-button color="primary" *ngIf="showGoto" [matMenuTriggerFor]="gotoModal">{{text.GotoButton}}</button>
+    <mat-menu #gotoModal="matMenu">
+      <mat-form-field appearance="outline">
+        <input matInput [matDatepicker]="picker" placeholder="Choose a date" (dateChange)="gotoDate($event.target.value)">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+    </mat-menu> -->
+
+    <button mat-raised-button color="primary" *ngIf="showToday" (click)="gotoToday()">Today</button>
+    <button mat-raised-button color="primary" (click)="previousPeriod()">Prev</button>
+    <button mat-raised-button color="primary" (click)="nextPeriod()">Next</button>
+  </div>
+
+  <h3 class="mat-h2 m-0" [align]="'center'">
+    {{ start.locale(locale).format(headerFormat) + ' - ' + end.locale(locale).format(headerFormat)}}
+  </h3>
+</div>
+
+
 <ngx-ts
   [items]="items"
-  [periods]="periods"
+  [period]="currentPeriod"
   [sections]="sections"
   [events]="events"
-  [locale]="'en-AU'"
+  [start]="start"
+  [locale]="locale"
   [showBusinessDayOnly]="false"
   [customEventTemplate]="myEventTemplate"
   [allowDragging]="true"
   [allowResizing]="false"
-  [minRowHeight]="48"
-></ngx-ts>
+  [minRowHeight]="48">
+</ngx-ts>
 
-<mat-form-field appearance="outline">
+<mat-form-field class="w-50p" appearance="outline">
   <mat-label>Event output</mat-label>
   <textarea matInput
             cdkTextareaAutosize

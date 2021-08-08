@@ -21,6 +21,13 @@ export class AppComponent implements OnInit {
   items: Item[];
   itemCount = 3;
   sectionCount = 10;
+  showGoto = true;
+  showToday = true;
+  headerFormat = 'Do MMM YYYY';
+  locale = 'en-AU';
+  start = moment().startOf('day');
+  end = moment().endOf('day');
+  currentPeriod: Period;
 
   constructor(private service: NgxTimeSchedulerService) {
     this.events.SectionClickEvent = (section) => {
@@ -165,7 +172,8 @@ export class AppComponent implements OnInit {
       end: moment().add(7, 'days').endOf('day'),
       classes: ''
     }];
-
+    this.currentPeriod = this.periods[0];
+    this.resetEnd();
   }
 
   ngOnInit() {
@@ -209,6 +217,35 @@ export class AppComponent implements OnInit {
 
   refresh() {
     this.service.refresh();
+  }
+
+  changePeriod(period) {
+    this.currentPeriod = period;
+    this.resetEnd();
+  }
+
+  resetEnd() {
+    this.end = moment(this.start).add(this.currentPeriod.timeFrameOverall, 'minutes').endOf('day');
+  }
+
+  gotoToday() {
+    this.start = moment().startOf('day');
+    this.resetEnd();
+  }
+
+  nextPeriod() {
+    this.start = moment(this.start).add(this.currentPeriod.timeFrameOverall, 'minutes');
+    this.resetEnd();
+  }
+
+  previousPeriod() {
+    this.start = moment(this.start).subtract(this.currentPeriod.timeFrameOverall, 'minutes');
+    this.resetEnd();
+  }
+
+  gotoDate(event: any) {
+    this.start = moment(event).startOf('day');
+    this.resetEnd();
   }
 
 }

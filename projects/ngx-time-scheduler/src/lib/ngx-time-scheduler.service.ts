@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {Subject} from 'rxjs';
-import {Item, Section} from './ngx-time-scheduler.model';
+import {Item, Period, Section} from './ngx-time-scheduler.model';
 
 @Injectable({
   providedIn: 'root'

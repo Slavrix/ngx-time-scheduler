@@ -4,14 +4,9 @@
   "lib": {
     "entryFile": "src/public_api.ts"
   },
-  "whitelistedNonPeerDependencies": [
+  "allowedNonPeerDependencies": [
     "@angular/cdk",
     "@angular/material",
-    "@angular/animations",
-    "@angular/common",
-    "@angular/core",
-    "@angular/forms",
-    "@angular/material-moment-adapter",
     "moment"
   ]
 }

@@ -26,13 +26,8 @@ body {
   overflow: auto;
 }
 
-.time-sch-wrapper, .time-sch-header-wrapper, .time-sch-table-wrapper {
+.time-sch-wrapper, .time-sch-table-wrapper {
   position: relative;
-}
-
-.time-sch-header-wrapper {
-  padding: .5em;
-  margin-bottom: .5em;
 }
 
 .time-sch-table {
@@ -40,24 +35,6 @@ body {
   table-layout: fixed;
   border-collapse: collapse;
   border-spacing: 0;
-}
-
-.time-sch-period-container {
-  float: left;
-  position: relative;
-}
-
-.time-sch-time-container {
-  float: right;
-  position: relative;
-}
-
-.example-button-row {
-  display: table-cell;
-}
-
-.example-button-row .mat-button-base {
-  margin: 0 4px;
 }
 
 .time-sch-wrapper .time-sch-section {
