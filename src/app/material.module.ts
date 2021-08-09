@@ -7,6 +7,8 @@ import {MatMenuModule} from '@angular/material/menu';
 import {MatNativeDateModule, MatRippleModule} from '@angular/material/core';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatTabsModule} from '@angular/material/tabs';
+import {MatToolbarModule} from '@angular/material/toolbar';
 
 @NgModule({
   exports: [
@@ -18,6 +20,8 @@ import {MatFormFieldModule} from '@angular/material/form-field';
     MatMenuModule,
     MatNativeDateModule,
     MatRippleModule,
+    MatTabsModule,
+    MatToolbarModule,
     MatTooltipModule
   ]
 })
