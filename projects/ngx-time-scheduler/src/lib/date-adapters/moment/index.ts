@@ -110,7 +110,6 @@ export function adapterFactory(moment): DateAdapter {
     },
 
     max(dates: (Date | number)[]): Date {
-      console.log(dates);
       return moment.max(moment(dates[0]), moment(dates[1]));
     },
 

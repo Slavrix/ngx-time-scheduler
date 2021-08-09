@@ -72,7 +72,6 @@ export class NgxTimeSchedulerComponent implements OnInit, OnDestroy, OnChanges, 
   }
 
   ngOnInit(): void {
-    console.log(this.start);
     if(!this.start) {
       this.start = this.dateAdapter.startOfDay(new Date());
     } else {
