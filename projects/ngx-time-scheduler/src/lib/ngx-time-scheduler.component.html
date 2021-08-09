@@ -32,7 +32,7 @@
     </div>
 
     <h3 class="mat-h2 text-center m-0">
-      {{ start.locale(locale).format(headerFormat) + ' - ' + end.locale(locale).format(headerFormat)}}
+      {{ dateAdapter.format(start, headerFormat) + ' - ' + dateAdapter.format(end, headerFormat)}}
     </h3>
   </div>
 

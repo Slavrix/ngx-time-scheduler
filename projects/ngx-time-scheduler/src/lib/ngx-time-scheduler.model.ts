@@ -1,5 +1,3 @@
-import * as moment from 'moment';
-
 export class Period {
   name: string;
   classes: string;
@@ -13,8 +11,8 @@ export class Period {
 export class Item {
   id: number;
   name: string;
-  start: moment.Moment;
-  end: moment.Moment;
+  start: Date | number;
+  end: Date | number;
   classes: string;
   sectionID: number;
   tooltip?: string;
@@ -53,7 +51,7 @@ export class Events {
   ItemContextMenu: (item: Item, event: MouseEvent) => void;
   SectionClickEvent: (section: Section) => void;
   SectionContextMenuEvent: (section: Section, event: MouseEvent) => void;
-  PeriodChange: (start: moment.Moment, end: moment.Moment) => void;
+  PeriodChange: (start: Date | number, end: Date | number) => void;
 }
 
 export class SectionItem {
