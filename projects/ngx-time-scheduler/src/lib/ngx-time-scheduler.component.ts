@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, ElementRef, Input, OnChanges, OnDestroy, OnInit, TemplateRef, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, Input, OnChanges, OnDestroy, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {CdkDragDrop} from '@angular/cdk/drag-drop';
 import {NgxTimeSchedulerService} from './ngx-time-scheduler.service';
 import {
@@ -18,15 +18,12 @@ import {Subscription} from 'rxjs';
 const moment = moment_;
 
 @Component({
-  selector: 'ngx-ts[items][period][sections]',
+  selector: 'ngx-ts[items][periods][sections], ngx-ts[items][sections][period][start][hideHeader]',
   templateUrl: './ngx-time-scheduler.component.html',
   styleUrls: ['./ngx-time-scheduler.component.scss']
 })
-export class NgxTimeSchedulerComponent implements OnInit, OnDestroy, OnChanges {
-  @ViewChild('sectionTd') set SectionTd(elementRef: ElementRef) {
-    this.SectionLeftMeasure = elementRef.nativeElement.clientWidth + 'px';
-    this.changeDetector.detectChanges();
-  }
+export class NgxTimeSchedulerComponent implements OnInit, OnDestroy, OnChanges, AfterViewInit {
+  @ViewChild('sectionTd', { read: ElementRef }) sectionTd: ElementRef;
 
   @Input() currentTimeFormat = 'DD-MMM-YYYY HH:mm';
   @Input() showCurrentTime = true;
@@ -39,9 +36,17 @@ export class NgxTimeSchedulerComponent implements OnInit, OnDestroy, OnChanges {
   @Input() text = new Text();
   @Input() items: Item[];
   @Input() sections: Section[];
-  @Input() period: Period;
   @Input() events: Events = new Events();
   @Input() customEventTemplate: TemplateRef<any>
+
+  @Input() hideHeader = false;
+  // If hideHeader = false
+  @Input() periods: Period[];
+  @Input() showGoto = true;
+  @Input() showToday = true;
+  @Input() headerFormat = 'Do MMM YYYY';
+  // If hideHeader = true
+  @Input() period: Period;
   @Input() start = moment().startOf('day');
 
   end = moment().endOf('day');
@@ -57,8 +62,9 @@ export class NgxTimeSchedulerComponent implements OnInit, OnDestroy, OnChanges {
   sectionItems: SectionItem[];
   subscription = new Subscription();
 
+  viewInitiated = false;
+
   constructor(
-    private changeDetector: ChangeDetectorRef,
     private service: NgxTimeSchedulerService
   ) {
     moment.locale(this.locale);
@@ -66,7 +72,11 @@ export class NgxTimeSchedulerComponent implements OnInit, OnDestroy, OnChanges {
 
   ngOnInit(): void {
     this.setSectionsInSectionItems();
-    this.changePeriod(this.period, false);
+    if (this.hideHeader) {
+      this.changePeriod(this.period, false);
+    } else {
+      this.changePeriod(this.periods[0], false);
+    }
     this.itemPush();
     this.itemPop();
     this.itemRemove();
@@ -77,17 +87,25 @@ export class NgxTimeSchedulerComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   ngOnChanges(changes: any): void {
-    console.log(changes);
-    console.log(changes.period);
-    if(changes.period) {
-      this.currentPeriod = changes.period.currentValue;
-      this.refreshView();
-    } else if(changes.start) {
-      this.refreshView();
+    if (this.hideHeader) {
+      if(changes.period) {
+        this.currentPeriod = changes.period.currentValue;
+        this.refreshView();
+      } else if(changes.start) {
+        this.refreshView();
+      }
     }
   }
 
+  ngAfterViewInit(): void {
+    this.viewInitiated = true
+    this.SectionLeftMeasure = this.sectionTd.nativeElement.clientWidth + 'px';
+  }
+
   refreshView() {
+    if(this.viewInitiated) {
+      this.SectionLeftMeasure = this.sectionTd.nativeElement.clientWidth + 'px';
+    }
     this.setSectionsInSectionItems();
     this.changePeriod(this.currentPeriod, false);
   }
@@ -195,8 +213,7 @@ export class NgxTimeSchedulerComponent implements OnInit, OnDestroy, OnChanges {
     }
   }
 
-  changePeriod(period, userTrigger) {
-      console.log(period, userTrigger);
+  changePeriod(period, userTrigger: boolean = true) {
       this.currentPeriod = period;
       const _start = this.start;
       this.end = moment(_start).add(this.currentPeriod.timeFrameOverall, 'minutes').endOf('day');
@@ -236,6 +253,27 @@ export class NgxTimeSchedulerComponent implements OnInit, OnDestroy, OnChanges {
       this.currentTimeVisibility = 'hidden';
     }
     this.ShowCurrentTimeHandle = setTimeout(this.showCurrentTimeIndicator, 30000);
+  }
+
+  gotoToday() {
+    this.start = moment().startOf('day');
+    this.changePeriod(this.currentPeriod);
+  }
+
+  nextPeriod() {
+    this.start.add(this.currentPeriod.timeFrameOverall, 'minutes');
+    this.changePeriod(this.currentPeriod);
+  }
+
+  previousPeriod() {
+    this.start.subtract(this.currentPeriod.timeFrameOverall, 'minutes');
+    this.changePeriod(this.currentPeriod);
+  }
+
+  gotoDate(event: any) {
+    this.showGotoModal = false;
+    this.start = moment(event).startOf('day');
+    this.changePeriod(this.currentPeriod);
   }
 
   getDatesBetweenTwoDates(format: string, index: number): Header {
