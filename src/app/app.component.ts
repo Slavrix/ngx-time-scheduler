@@ -52,8 +52,8 @@ export class AppComponent implements OnInit {
     this.periods = [
       {
         name: '2 week',
-        timeFrameHeaders: ['MMM YYYY', 'DD(ddd)'],
-        timeFrameHeadersTooltip: ['MMM YYYY', 'DD(ddd)'],
+        timeFrameHeaders: ['MMM yyyy', 'dd(EEE)'],
+        timeFrameHeadersTooltip: ['MMM yyyy', 'dd(EEE)'],
         classes: '',
         timeFrameOverall: 1440 * 14,
         timeFramePeriod: 1440,
@@ -63,13 +63,13 @@ export class AppComponent implements OnInit {
         timeFramePeriod: (60 * 3),
         timeFrameOverall: (60 * 24 * 3),
         timeFrameHeaders: [
-          'Do MMM',
+          'do MMM',
           'HH'
         ],
         classes: 'period-3day',
       }, {
         name: '1 week',
-        timeFrameHeaders: ['MMM YYYY', 'DD(ddd)'],
+        timeFrameHeaders: ['MMM yyyy', 'dd(EEE)'],
         classes: '',
         timeFrameOverall: 1440 * 7,
         timeFramePeriod: 1440,
@@ -80,7 +80,7 @@ export class AppComponent implements OnInit {
         timeFramePeriod: 60,
         timeFrameOverall: 1440,
         timeFrameHeaders: [
-          'Do MMM',
+          'do MMM',
           'HH'
         ],
       }];
@@ -112,64 +112,64 @@ export class AppComponent implements OnInit {
       id: 1,
       sectionID: 1,
       name: 'Item 1',
-      start: moment().startOf('day'),
-      end: moment().add(5, 'days').endOf('day'),
+      start: moment().startOf('day').toDate(),
+      end: moment().add(5, 'days').endOf('day').toDate(),
       classes: ''
     }, {
       id: 2,
       sectionID: 3,
       name: 'Item 2',
-      start: moment().startOf('day'),
-      end: moment().add(4, 'days').endOf('day'),
+      start: moment().startOf('day').toDate(),
+      end: moment().add(4, 'days').endOf('day').toDate(),
       classes: ''
     }, {
       id: 3,
       sectionID: 1,
       name: 'Item 3',
-      start: moment().add(1, 'days').startOf('day'),
-      end: moment().add(3, 'days').endOf('day'),
+      start: moment().add(1, 'days').startOf('day').toDate(),
+      end: moment().add(3, 'days').endOf('day').toDate(),
       classes: ''
     }, {
       id: 4,
       sectionID: 3,
       name: 'Item 4',
-      start: moment().add(1, 'days').startOf('day'),
-      end: moment().add(3, 'days').endOf('day'),
+      start: moment().add(1, 'days').startOf('day').toDate(),
+      end: moment().add(3, 'days').endOf('day').toDate(),
       classes: ''
     }, {
       id: 5,
       sectionID: 1,
       name: 'Item 5',
-      start: moment().add(7, 'days').startOf('day'),
-      end: moment().add(8, 'days').endOf('day'),
+      start: moment().add(7, 'days').startOf('day').toDate(),
+      end: moment().add(8, 'days').endOf('day').toDate(),
       classes: ''
     }, {
       id: 6,
       sectionID: 1,
       name: 'Item 6',
-      start: moment().subtract(3, 'days').startOf('day'),
-      end: moment().subtract(1, 'days').endOf('day'),
+      start: moment().subtract(3, 'days').startOf('day').toDate(),
+      end: moment().subtract(1, 'days').endOf('day').toDate(),
       classes: ''
     }, {
       id: 7,
       sectionID: 1,
       name: 'Item 7',
-      start: moment().subtract(2, 'days').startOf('day'),
-      end: moment().add(2, 'days').endOf('day'),
+      start: moment().subtract(2, 'days').startOf('day').toDate(),
+      end: moment().add(2, 'days').endOf('day').toDate(),
       classes: ''
     }, {
       id: 8,
       sectionID: 1,
       name: 'Item 8',
-      start: moment().add(3, 'days').startOf('day'),
-      end: moment().add(7, 'days').endOf('day'),
+      start: moment().add(3, 'days').startOf('day').toDate(),
+      end: moment().add(7, 'days').endOf('day').toDate(),
       classes: ''
     }, {
       id: 9,
       sectionID: 1,
       name: 'Item 9',
-      start: moment().subtract(2, 'days').startOf('day'),
-      end: moment().add(7, 'days').endOf('day'),
+      start: moment().subtract(2, 'days').startOf('day').toDate(),
+      end: moment().add(7, 'days').endOf('day').toDate(),
       classes: ''
     }];
     this.currentPeriod = this.periods[0];
@@ -185,8 +185,8 @@ export class AppComponent implements OnInit {
       id: this.itemCount,
       sectionID: 5,
       name: 'Item ' + this.itemCount,
-      start: moment().startOf('day').add(5, 'h'),
-      end: moment().add(3, 'days').endOf('day').add(5, 'h'),
+      start: moment().startOf('day').add(5, 'h').toDate(),
+      end: moment().add(3, 'days').endOf('day').add(5, 'h').toDate(),
       classes: ''
     });
   }
