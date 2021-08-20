@@ -65,7 +65,7 @@ export class NgxTimeSchedulerComponent implements OnInit, OnDestroy, OnChanges, 
 
   constructor(
     private service: NgxTimeSchedulerService,
-    protected dateAdapter: DateAdapter,
+    public dateAdapter: DateAdapter,
     @Inject(LOCALE_ID) locale: string
   ) {
     this.locale = locale;

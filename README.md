@@ -14,9 +14,9 @@ A simple Angular Timeline Scheduler library
 ```
 npm i ngx-time-scheduler
 ``` -->
-Install via GitHub
+Install via NPM
 ```
-npm i git+https://github.com/Slavrix/ngx-time-scheduler.git
+npm i ngx-time-scheduler-extend
 ```
 
 
@@ -259,6 +259,8 @@ A selection of events are provided to hook into when creating the scheduler, and
 
 
 **NOTE:** To prevent the default context menu of the browser, use event.preventDefault() in an event.ItemContextMenu() or event.SectionContextMenuEvent() function.
+
+**TODO:** Update README with changes
 
 # Demo
 [Demo](https://slavrix.github.io/ngx-time-scheduler/)

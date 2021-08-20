@@ -1,6 +1,6 @@
 {
   "name": "ngx-time-scheduler-extend",
-  "version": "1.0.0",
+  "version": "1.2.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -11,18 +11,20 @@
     "postinstall": "ngcc",
     "ng:build:demo": "ng build --aot --prod --base-href=https://slavrix.github.io/ngx-time-scheduler/",
     "deploy": "npm run ng:build:demo && gh-pages -d dist/demo",
+    "build_date_adapters": "tsc -p tsconfig-date-adapters.json && tsc -p tsconfig-date-adapters.json --module es2015 --outDir ./dist/ngx-time-scheduler/lib/date-adapters/esm",
     "build_lib": "ng build NgxTimeScheduler",
+    "copy_date_adapters": "cp-cli projects/ngx-time-scheduler/util/date-adapter-package-date-fns.json dist/ngx-time-scheduler/lib/date-adapters/date-fns/package.json & cp-cli projects/ngx-time-scheduler/util/date-adapter-package-moment.json dist/ngx-time-scheduler/lib/date-adapters/moment/package.json",
     "copy_license": "cp ./LICENSE ./dist/ngx-time-scheduler",
     "copy_readme": "cp ./README.md ./dist/ngx-time-scheduler",
-    "copy_files": "npm run copy_license && npm run copy_readme",
+    "copy_files": "npm run copy_license && npm run copy_readme && npm run copy_date_adapters",
     "npm_pack": "cd dist/ngx-time-scheduler && npm pack",
-    "package": "npm run build_lib && npm run copy_files && npm run npm_pack",
+    "package": "npm run build_lib && npm run build_date_adapters && npm run copy_files && npm run npm_pack",
     "publish": "cd dist/ngx-time-scheduler && npm publish"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
   },
-  "private": true,
+  "private": false,
   "dependencies": {
     "@angular/animations": "^12.0.0",
     "@angular/cdk": "^12.0.0",
@@ -57,6 +59,7 @@
     "@types/jasmine": "^3.8.2",
     "@types/jasminewd2": "^2.0.3",
     "@types/node": "^14.0.13",
+    "cp-cli": "^2.0.0",
     "eslint": "^7.32.0",
     "eslint-plugin-import": "^2.23.4",
     "eslint-plugin-jsdoc": "^36.0.6",
