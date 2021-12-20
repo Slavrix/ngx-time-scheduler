@@ -41,7 +41,13 @@
       <tr *ngFor="let timeFrameHeader of header; let i = index; trackBy: trackByFn">
 
         <td class="mat-h3 time-sch-section text-center" *ngIf="i === 0" [rowSpan]="2">
-          {{text.SectionTitle}}
+          <mat-form-field appearance="fill" *ngIf="text.SectionTitle === 'Select'">
+            <mat-select [formControl]="selected" (selectionChange)="changeSections($event)">
+              <mat-option *ngFor="let section of text.SectionItems; let i = index" [value]="i">
+                {{section}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
         </td>
 
         <td class="mat-h3 text-center"
@@ -109,6 +115,10 @@
               <div class="mat-body-2 time-sch-item-content"
                   [title]="itemMeta.item.tooltip? itemMeta.item.tooltip : ''">
                 {{itemMeta.item.name}}
+                {{itemMeta.item.client}}
+                {{itemMeta.item.supplier}}
+                {{itemMeta.item.venue}}
+                {{itemMeta.item.resource}}
               </div>
             </ng-template>
             <div class="time-sch-item-template-wrapper">

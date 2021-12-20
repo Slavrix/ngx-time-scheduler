@@ -1,7 +1,7 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
-import {CdkTextareaAutosize} from '@angular/cdk/text-field';
-import {Item, Period, Section, Events} from '../../projects/ngx-time-scheduler/src/lib/ngx-time-scheduler.model';
-import {NgxTimeSchedulerService} from '../../projects/ngx-time-scheduler/src/lib/ngx-time-scheduler.service';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { CdkTextareaAutosize } from '@angular/cdk/text-field';
+import { Item, Period, Section, Events } from '../../projects/ngx-time-scheduler/src/lib/ngx-time-scheduler.model';
+import { NgxTimeSchedulerService } from '../../projects/ngx-time-scheduler/src/lib/ngx-time-scheduler.service';
 import * as moment from 'moment';
 
 @Component({
@@ -18,6 +18,7 @@ export class AppComponent implements OnInit {
   events: Events = new Events();
   periods: Period[];
   sections: Section[];
+  allSections: Section[];
   items: Item[];
   itemCount = 3;
   sectionCount = 10;
@@ -86,26 +87,36 @@ export class AppComponent implements OnInit {
       }];
 
     this.sections = [{
-      name: 'A',
+      name: 'Resource 1',
       id: 1
     }, {
-      name: 'B',
+      name: 'Client 1',
       id: 2
     }, {
-      name: 'C',
+      name: 'Supplier 2',
       id: 3
     }, {
-      name: 'D',
+      name: 'Venue 2',
       id: 4
     }, {
-      name: 'E',
+      name: 'Resource 2',
       id: 5
     }, {
-      name: 'F',
+      name: 'Resource 3',
       id: 6
     }, {
-      name: 'G',
+      name: 'Supplier 4',
       id: 7
+    }, {
+      name: 'Client 3',
+      id: 8
+    }, {
+      name: 'Supplier 1',
+      id: 9
+    },
+    {
+      name: 'Venue 1',
+      id: 10
     }];
 
     this.items = [{
@@ -114,6 +125,10 @@ export class AppComponent implements OnInit {
       name: 'Item 1',
       start: moment().startOf('day').toDate(),
       end: moment().add(5, 'days').endOf('day').toDate(),
+      resource: 'Resource 1',
+      supplier: 'Supplier 2',
+      client: '',
+      venue: '',
       classes: ''
     }, {
       id: 2,
@@ -121,62 +136,96 @@ export class AppComponent implements OnInit {
       name: 'Item 2',
       start: moment().startOf('day').toDate(),
       end: moment().add(4, 'days').endOf('day').toDate(),
-      classes: ''
+      classes: '',
+      resource: '',
+      supplier: 'Supplier 2',
+      client: '',
+      venue: 'Venue 1',
     }, {
       id: 3,
       sectionID: 1,
       name: 'Item 3',
       start: moment().add(1, 'days').startOf('day').toDate(),
       end: moment().add(3, 'days').endOf('day').toDate(),
-      classes: ''
+      classes: '',
+      resource: 'Resource 1',
+      supplier: '',
+      client: '',
+      venue: '',
     }, {
       id: 4,
       sectionID: 3,
       name: 'Item 4',
       start: moment().add(1, 'days').startOf('day').toDate(),
       end: moment().add(3, 'days').endOf('day').toDate(),
-      classes: ''
+      classes: '',
+      resource: '',
+      supplier: 'Supplier 2',
+      client: '',
+      venue: 'Venue 2',
     }, {
       id: 5,
       sectionID: 1,
       name: 'Item 5',
       start: moment().add(7, 'days').startOf('day').toDate(),
       end: moment().add(8, 'days').endOf('day').toDate(),
-      classes: ''
+      classes: '',
+      resource: 'Resource 1',
+      supplier: 'Supplier 2',
+      client: '',
+      venue: '',
     }, {
       id: 6,
       sectionID: 1,
       name: 'Item 6',
       start: moment().subtract(3, 'days').startOf('day').toDate(),
       end: moment().subtract(1, 'days').endOf('day').toDate(),
-      classes: ''
+      classes: '',
+      resource: 'Resource 3',
+      supplier: '',
+      client: '',
+      venue: 'Venue 1',
     }, {
       id: 7,
       sectionID: 1,
       name: 'Item 7',
       start: moment().subtract(2, 'days').startOf('day').toDate(),
       end: moment().add(2, 'days').endOf('day').toDate(),
-      classes: ''
+      classes: '',
+      resource: 'Resource 3',
+      supplier: '',
+      client: 'Client 1',
+      venue: '',
     }, {
       id: 8,
       sectionID: 1,
       name: 'Item 8',
       start: moment().add(3, 'days').startOf('day').toDate(),
       end: moment().add(7, 'days').endOf('day').toDate(),
-      classes: ''
+      classes: '',
+      resource: 'Resource 1',
+      supplier: '',
+      client: 'Client 3',
+      venue: '',
     }, {
       id: 9,
       sectionID: 1,
       name: 'Item 9',
       start: moment().subtract(2, 'days').startOf('day').toDate(),
       end: moment().add(7, 'days').endOf('day').toDate(),
-      classes: ''
+      classes: '',
+      resource: 'Resource 1',
+      supplier: '',
+      client: '',
+      venue: '',
     }];
     this.currentPeriod = this.periods[0];
     this.resetEnd();
   }
 
   ngOnInit() {
+    this.allSections = this.sections;
+    this.showSectionId(0);
   }
 
   addItem() {
@@ -187,8 +236,29 @@ export class AppComponent implements OnInit {
       name: 'Item ' + this.itemCount,
       start: moment().startOf('day').add(5, 'h').toDate(),
       end: moment().add(3, 'days').endOf('day').add(5, 'h').toDate(),
-      classes: ''
+      classes: '',
+      client: '',
+      resource: '',
+      venue: '',
+      supplier: ''
     });
+  }
+
+  showSectionId(e) {
+    let newSections;
+    if (e === 1) {
+      newSections = this.allSections.filter(sect => sect.name.includes('Supplier'));
+    }
+    if (e === 0) {
+      newSections = this.allSections.filter(sect => sect.name.includes('Resource'));
+    }
+    if (e === 2) {
+      newSections = this.allSections.filter(sect => sect.name.includes('Client'));
+    }
+    if (e === 3) {
+      newSections = this.allSections.filter(sect => sect.name.includes('Venue'));
+    }
+    this.sections = newSections;
   }
 
   popItem() {

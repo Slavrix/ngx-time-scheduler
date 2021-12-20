@@ -6,12 +6,11 @@ import {
   DateAdapter,
   MOMENT
 } from '../../projects/ngx-time-scheduler/src/lib/ngx-time-scheduler.module';
-import {FormsModule} from '@angular/forms';
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import { FormsModule } from '@angular/forms';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DemoMaterialModule } from './material.module';
 
 import { adapterFactory } from '../../projects/ngx-time-scheduler/src/lib/date-adapters/moment';
-// import { adapterFactory } from '../../projects/ngx-time-scheduler/src/lib/date-adapters/date-fns';
 import * as moment from 'moment';
 
 export function momentAdapterFactory() {

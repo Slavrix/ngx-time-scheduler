@@ -3,6 +3,8 @@ import { InjectionToken, ModuleWithProviders, NgModule, Provider } from '@angula
 
 import { NgxTimeSchedulerComponent } from './ngx-time-scheduler.component';
 import {CommonModule} from '@angular/common';
+import {MatSelectModule} from "@angular/material/select";
+import {ReactiveFormsModule} from "@angular/forms";
 
 export * from './date-adapters/date-adapter';
 export const MOMENT: InjectionToken<string> = new InjectionToken('Moment');
@@ -11,7 +13,9 @@ export const MOMENT: InjectionToken<string> = new InjectionToken('Moment');
   declarations: [NgxTimeSchedulerComponent],
   imports: [
     CommonModule,
-    DemoMaterialModule
+    DemoMaterialModule,
+    ReactiveFormsModule,
+    MatSelectModule,
   ],
   exports: [
     NgxTimeSchedulerComponent

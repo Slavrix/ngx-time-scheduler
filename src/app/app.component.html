@@ -54,7 +54,8 @@
       [showBusinessDayOnly]="false"
       [allowDragging]="true"
       [allowResizing]="false"
-      [minRowHeight]="48">
+      [minRowHeight]="48"
+      (showSectionId)="showSectionId($event)">
     </ngx-ts>
   </mat-tab>
   <mat-tab label="Built in Controls">
