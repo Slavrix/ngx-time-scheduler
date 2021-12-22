@@ -6,12 +6,14 @@ import {
   DateAdapter,
   MOMENT
 } from '../../projects/ngx-time-scheduler/src/lib/ngx-time-scheduler.module';
-import { FormsModule } from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DemoMaterialModule } from './material.module';
 
 import { adapterFactory } from '../../projects/ngx-time-scheduler/src/lib/date-adapters/moment';
+// import { adapterFactory } from '../../projects/ngx-time-scheduler/src/lib/date-adapters/date-fns';
 import * as moment from 'moment';
+import { MatSelectModule } from "@angular/material/select";
 
 export function momentAdapterFactory() {
   return adapterFactory(moment);
@@ -31,6 +33,8 @@ export function momentAdapterFactory() {
       }
     ),
     FormsModule,
+    ReactiveFormsModule,
+    MatSelectModule,
     DemoMaterialModule
   ],
   providers: [{

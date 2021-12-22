@@ -43,11 +43,14 @@
         <td class="mat-h3 time-sch-section text-center" *ngIf="i === 0" [rowSpan]="2">
           <mat-form-field appearance="fill" *ngIf="text.SectionTitle === 'Select'">
             <mat-select [formControl]="selected" (selectionChange)="changeSections($event)">
-              <mat-option *ngFor="let section of text.SectionItems; let i = index" [value]="i">
-                {{section}}
-              </mat-option>
+              <div *ngFor="let section of sectionProperties; let i = index">
+                <mat-option *ngIf="i !== 5" [value]="section">
+                  View by {{section}}
+                </mat-option>
+              </div>
             </mat-select>
           </mat-form-field>
+          <div *ngIf="text.SectionTitle !== 'Select'">{{text.SectionTitle}}</div>
         </td>
 
         <td class="mat-h3 text-center"
@@ -65,13 +68,16 @@
       <table class="time-sch-table">
         <tr *ngFor="let sectionItem of sectionItems; trackBy: trackByFn"
             [style.height]="sectionItem.minRowHeight + 'px'">
-          <td class="mat-h3 time-sch-section text-center" #sectionTd
+          <td class="mat-h3 time-sch-section text-center" *ngIf="sectionItem.section[currentSelect] || sectionItem.section.name" #sectionTd
               (click)="events.SectionClickEvent ? events.SectionClickEvent(sectionItem.section) : false"
               (contextmenu)="events.SectionContextMenuEvent ? events.SectionContextMenuEvent(sectionItem.section, $event) : false"
               [style.cursor]="events.SectionClickEvent ? 'pointer' : ''"
               [title]="sectionItem.section.tooltip? sectionItem.section.tooltip : ''"
           >
-            {{sectionItem.section.name}}
+            <div class="current-select" *ngIf="currentSelect && sectionItem.section[currentSelect]">
+              {{sectionItem.section[currentSelect]}}
+            </div>
+            <div *ngIf="!currentSelect && sectionItem.section.name">{{sectionItem.section.name}}</div>
           </td>
 
           <td *ngFor="let td of header[header.length - 1].headerDetails; trackBy: trackByFn"></td>
@@ -115,10 +121,7 @@
               <div class="mat-body-2 time-sch-item-content"
                   [title]="itemMeta.item.tooltip? itemMeta.item.tooltip : ''">
                 {{itemMeta.item.name}}
-                {{itemMeta.item.client}}
-                {{itemMeta.item.supplier}}
-                {{itemMeta.item.venue}}
-                {{itemMeta.item.resource}}
+                {{itemMeta.item[currentSelect]}}
               </div>
             </ng-template>
             <div class="time-sch-item-template-wrapper">

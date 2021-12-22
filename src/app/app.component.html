@@ -43,10 +43,18 @@
       </h3>
     </div>
 
+    <mat-form-field appearance="fill">
+      <mat-select [formControl]="switchSelection" (selectionChange)="changeSwitch($event)">
+        <mat-option value="0">Select by properties</mat-option>
+        <mat-option value="1">Select by sections</mat-option>
+      </mat-select>
+    </mat-form-field>
+
     <ngx-ts
       [items]="items"
       [period]="currentPeriod"
       [sections]="sections"
+      [text]="text"
       [events]="events"
       [start]="start.toDate()"
       [hideHeader]="true"
@@ -71,7 +79,8 @@
       [showBusinessDayOnly]="false"
       [allowDragging]="true"
       [allowResizing]="false"
-      [minRowHeight]="48">
+      [minRowHeight]="48"
+      (showSectionId)="showSectionId($event)">
     </ngx-ts>
 
   </mat-tab>
@@ -88,7 +97,8 @@
       [customEventTemplate]="myEventTemplate"
       [allowDragging]="true"
       [allowResizing]="false"
-      [minRowHeight]="48">
+      [minRowHeight]="48"
+      (showSectionId)="showSectionId($event)">
     </ngx-ts>
   </mat-tab>
 </mat-tab-group>

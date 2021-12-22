@@ -17,10 +17,6 @@ export class Item {
   sectionID: number;
   tooltip?: string;
   metadata?: any;
-  resource: string;
-  supplier: string;
-  venue: string;
-  client: string;
 }
 
 export class Section {
@@ -35,20 +31,14 @@ export class Text {
   TodayButton: string;
   GotoButton: string;
   SectionTitle: string;
-  SectionItems: Array<string>;
+  // SectionItems: Array<string>;
 
   constructor() {
     this.NextButton = 'Next';
     this.PrevButton = 'Prev';
     this.TodayButton = 'Today';
     this.GotoButton = 'Go to';
-    this.SectionTitle = 'Select';
-    this.SectionItems = [
-      'View by resources',
-      'View by supplier',
-      'View by client',
-      'View by venue'
-    ]
+    this.SectionTitle = 'Section';
   }
 }
 

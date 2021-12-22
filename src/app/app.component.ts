@@ -3,6 +3,7 @@ import { CdkTextareaAutosize } from '@angular/cdk/text-field';
 import { Item, Period, Section, Events } from '../../projects/ngx-time-scheduler/src/lib/ngx-time-scheduler.model';
 import { NgxTimeSchedulerService } from '../../projects/ngx-time-scheduler/src/lib/ngx-time-scheduler.service';
 import * as moment from 'moment';
+import {FormControl} from "@angular/forms";
 
 @Component({
   selector: 'app-root',
@@ -18,14 +19,19 @@ export class AppComponent implements OnInit {
   events: Events = new Events();
   periods: Period[];
   sections: Section[];
+  sectionUsers: Section[];
   allSections: Section[];
+  allItems: Item[];
   items: Item[];
+  itemUsers;
+  text = new Text();
   itemCount = 3;
   sectionCount = 10;
   showGoto = true;
   showToday = true;
   headerFormat = 'Do MMM YYYY';
   locale = 'en-AU';
+  switchSelection: FormControl;
   start = moment().startOf('day');
   end = moment().endOf('day');
   currentPeriod: Period;
@@ -86,7 +92,7 @@ export class AppComponent implements OnInit {
         ],
       }];
 
-    this.sections = [{
+    this.sectionUsers = [{
       name: 'Resource 1',
       id: 1
     }, {
@@ -114,12 +120,45 @@ export class AppComponent implements OnInit {
       name: 'Supplier 1',
       id: 9
     },
+      {
+        name: 'Venue 1',
+        id: 10
+      }];
+
+    this.sections = [{
+      name: 'A',
+      id: 1
+    }, {
+      name: 'B',
+      id: 2
+    }, {
+      name: 'C',
+      id: 3
+    }, {
+      name: 'D',
+      id: 4
+    }, {
+      name: 'E',
+      id: 5
+    }, {
+      name: 'F',
+      id: 6
+    }, {
+      name: 'G',
+      id: 7
+    }, {
+      name: 'H',
+      id: 8
+    }, {
+      name: 'I',
+      id: 9
+    },
     {
-      name: 'Venue 1',
+      name: 'J',
       id: 10
     }];
 
-    this.items = [{
+    this.itemUsers = [{
       id: 1,
       sectionID: 1,
       name: 'Item 1',
@@ -219,13 +258,93 @@ export class AppComponent implements OnInit {
       client: '',
       venue: '',
     }];
+
+    this.items = [{
+      id: 1,
+      sectionID: 1,
+      name: 'Item 1',
+      start: moment().startOf('day').toDate(),
+      end: moment().add(5, 'days').endOf('day').toDate(),
+      classes: ''
+    }, {
+      id: 2,
+      sectionID: 3,
+      name: 'Item 2',
+      start: moment().startOf('day').toDate(),
+      end: moment().add(4, 'days').endOf('day').toDate(),
+      classes: ''
+    }, {
+      id: 3,
+      sectionID: 1,
+      name: 'Item 3',
+      start: moment().add(1, 'days').startOf('day').toDate(),
+      end: moment().add(3, 'days').endOf('day').toDate(),
+      classes: ''
+    }, {
+      id: 4,
+      sectionID: 3,
+      name: 'Item 4',
+      start: moment().add(1, 'days').startOf('day').toDate(),
+      end: moment().add(3, 'days').endOf('day').toDate(),
+      classes: ''
+    }, {
+      id: 5,
+      sectionID: 1,
+      name: 'Item 5',
+      start: moment().add(7, 'days').startOf('day').toDate(),
+      end: moment().add(8, 'days').endOf('day').toDate(),
+      classes: ''
+    }, {
+      id: 6,
+      sectionID: 1,
+      name: 'Item 6',
+      start: moment().subtract(3, 'days').startOf('day').toDate(),
+      end: moment().subtract(1, 'days').endOf('day').toDate(),
+      classes: ''
+    }, {
+      id: 7,
+      sectionID: 1,
+      name: 'Item 7',
+      start: moment().subtract(2, 'days').startOf('day').toDate(),
+      end: moment().add(2, 'days').endOf('day').toDate(),
+      classes: ''
+    }, {
+      id: 8,
+      sectionID: 1,
+      name: 'Item 8',
+      start: moment().add(3, 'days').startOf('day').toDate(),
+      end: moment().add(7, 'days').endOf('day').toDate(),
+      classes: ''
+    }, {
+      id: 9,
+      sectionID: 1,
+      name: 'Item 9',
+      start: moment().subtract(2, 'days').startOf('day').toDate(),
+      end: moment().add(7, 'days').endOf('day').toDate(),
+      classes: ''
+    }];
+    this.switchSelection = new FormControl('1');
     this.currentPeriod = this.periods[0];
     this.resetEnd();
   }
 
   ngOnInit() {
     this.allSections = this.sections;
-    this.showSectionId(0);
+    this.allItems = this.items;
+  }
+
+  changeSwitch(e) {
+    if (e.value === '0') {
+      this.text['SectionTitle'] = 'Select';
+      this.sections = this.sectionUsers;
+      this.items = this.itemUsers;
+      // this.showSectionId(0);
+    }
+    if (e.value === '1') {
+      this.text['SectionTitle'] = 'Section';
+      this.sections = this.allSections;
+      this.items = this.allItems;
+    }
   }
 
   addItem() {
@@ -236,29 +355,21 @@ export class AppComponent implements OnInit {
       name: 'Item ' + this.itemCount,
       start: moment().startOf('day').add(5, 'h').toDate(),
       end: moment().add(3, 'days').endOf('day').add(5, 'h').toDate(),
-      classes: '',
-      client: '',
-      resource: '',
-      venue: '',
-      supplier: ''
+      classes: ''
     });
   }
 
   showSectionId(e) {
-    let newSections;
-    if (e === 1) {
-      newSections = this.allSections.filter(sect => sect.name.includes('Supplier'));
-    }
-    if (e === 0) {
-      newSections = this.allSections.filter(sect => sect.name.includes('Resource'));
-    }
-    if (e === 2) {
-      newSections = this.allSections.filter(sect => sect.name.includes('Client'));
-    }
-    if (e === 3) {
-      newSections = this.allSections.filter(sect => sect.name.includes('Venue'));
-    }
-    this.sections = newSections;
+    // console.log('showSectionId');
+    let arrayUnique = [];
+    this.items.forEach((item, i) => {
+      if (!arrayUnique.includes(item[e])) {
+        arrayUnique.push(item[e])
+        this.sectionUsers[i][e] = item[e];
+      }
+    });
+    this.sections = this.sectionUsers;
+    this.refresh();
   }
 
   popItem() {
