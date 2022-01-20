@@ -9,8 +9,8 @@
     "baseUrl": "",
     "inlineSources": true,
     "importHelpers": true,
-    "target": "es2017",
-    "module": "es2020",
+    "target": "es5",
+    "module": "commonjs",
   },
   "files": [
     "projects/ngx-time-scheduler/src/lib/date-adapters/date-fns/index.ts",

@@ -12,7 +12,6 @@ import {
   Text,
   Events
 } from './ngx-time-scheduler.model';
-import * as moment from 'moment';
 import {Subscription} from 'rxjs';
 import { DateAdapter } from './date-adapters/date-adapter';
 
