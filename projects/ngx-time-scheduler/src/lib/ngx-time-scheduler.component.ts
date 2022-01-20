@@ -1,6 +1,21 @@
-import {AfterViewInit, Component, ElementRef, Inject, Input, LOCALE_ID, OnChanges, OnDestroy, OnInit, TemplateRef, ViewChild} from '@angular/core';
-import {CdkDragDrop} from '@angular/cdk/drag-drop';
-import {NgxTimeSchedulerService} from './ngx-time-scheduler.service';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  Inject,
+  Input,
+  LOCALE_ID,
+  OnChanges,
+  OnDestroy,
+  OnInit,
+  Output,
+  TemplateRef,
+  ViewChild,
+  EventEmitter
+} from '@angular/core';
+import { FormControl } from "@angular/forms";
+import { CdkDragDrop } from '@angular/cdk/drag-drop';
+import { NgxTimeSchedulerService } from './ngx-time-scheduler.service';
 import {
   HeaderDetails,
   Header,
@@ -12,7 +27,7 @@ import {
   Text,
   Events
 } from './ngx-time-scheduler.model';
-import {Subscription} from 'rxjs';
+import { Subscription } from 'rxjs';
 import { DateAdapter } from './date-adapters/date-adapter';
 
 @Component({
@@ -46,6 +61,7 @@ export class NgxTimeSchedulerComponent implements OnInit, OnDestroy, OnChanges, 
   // If hideHeader = true
   @Input() period: Period;
   @Input() start: Date;
+  @Output() showSectionId = new EventEmitter<any>();
 
   end: Date;
   showGotoModal = false;
@@ -57,8 +73,11 @@ export class NgxTimeSchedulerComponent implements OnInit, OnDestroy, OnChanges, 
   currentPeriod: Period;
   currentPeriodMinuteDiff = 0;
   header: Header[];
+  sectionProperties = [];
   sectionItems: SectionItem[];
+  currentSelect;
   subscription = new Subscription();
+  selected: FormControl;
 
   viewInitiated = false;
 
@@ -68,6 +87,7 @@ export class NgxTimeSchedulerComponent implements OnInit, OnDestroy, OnChanges, 
     @Inject(LOCALE_ID) locale: string
   ) {
     this.locale = locale;
+    this.selected = new FormControl(0);
   }
 
   ngOnInit(): void {
@@ -77,7 +97,7 @@ export class NgxTimeSchedulerComponent implements OnInit, OnDestroy, OnChanges, 
       this.start = this.dateAdapter.startOfDay(this.start);
     }
     this.end = this.dateAdapter.endOfDay(this.start);
-
+    this.sectionProperties = Object.keys(this.items[1]);
     this.setSectionsInSectionItems();
     if (this.hideHeader) {
       this.changePeriod(this.period, false);
@@ -94,6 +114,7 @@ export class NgxTimeSchedulerComponent implements OnInit, OnDestroy, OnChanges, 
   }
 
   ngOnChanges(changes: any): void {
+    this.sectionProperties = Object.keys(this.items[1]);
     if (this.hideHeader) {
       if(changes.period) {
         this.currentPeriod = changes.period.currentValue;
@@ -106,12 +127,12 @@ export class NgxTimeSchedulerComponent implements OnInit, OnDestroy, OnChanges, 
 
   ngAfterViewInit(): void {
     this.viewInitiated = true
-    this.SectionLeftMeasure = this.sectionTd.nativeElement.clientWidth + 'px';
+    this.SectionLeftMeasure = this.sectionTd?.nativeElement?.clientWidth + 'px';
   }
 
   refreshView() {
     if(this.viewInitiated) {
-      this.SectionLeftMeasure = this.sectionTd.nativeElement.clientWidth + 'px';
+      this.SectionLeftMeasure = this.sectionTd?.nativeElement?.clientWidth + 'px';
     }
     this.setSectionsInSectionItems();
     this.changePeriod(this.currentPeriod, false);
@@ -127,7 +148,12 @@ export class NgxTimeSchedulerComponent implements OnInit, OnDestroy, OnChanges, 
       const perSectionItem = new SectionItem();
       perSectionItem.section = section;
       perSectionItem.minRowHeight = this.minRowHeight;
-      this.sectionItems.push(perSectionItem);
+      if (!this.currentSelect) {
+        this.sectionItems.push(perSectionItem);
+      }
+      if (this.currentSelect && perSectionItem.section[this.currentSelect]) {
+        this.sectionItems.push(perSectionItem);
+      }
     });
   }
 
@@ -141,6 +167,16 @@ export class NgxTimeSchedulerComponent implements OnInit, OnDestroy, OnChanges, 
       this.items.filter(i => {
         let itemMeta = new ItemMeta();
 
+        // console.log('currentSelect', this.currentSelect);
+        // if (this.currentSelect && i[this.currentSelect] && i[this.currentSelect] === ele.section[this.currentSelect]) {
+        //   itemMeta = this.itemMetaCal(itemMeta);
+        //   console.log('зашло');
+        //   ele.itemMetas.push(itemMeta);
+        //   itemMetas.push(itemMeta);
+        // }
+        // if (!this.currentSelect) {
+        //
+        // }
         if (i.sectionID === ele.section.id) {
           itemMeta.item = i;
           if (itemMeta.item.start <= this.end && itemMeta.item.end >= this.start) {
@@ -153,7 +189,7 @@ export class NgxTimeSchedulerComponent implements OnInit, OnDestroy, OnChanges, 
     });
 
     const sortedItems = itemMetas.reduce((sortItems: {}, itemMeta: ItemMeta) => {
-      const index = this.sectionItems.findIndex(sectionItem => sectionItem.section.id === itemMeta.item.sectionID);
+      let index = this.sectionItems.findIndex(sectionItem => sectionItem.section[this.currentSelect] === itemMeta.item[this.currentSelect]);
       if (!sortItems[index]) {
         sortItems[index] = [];
       }
@@ -239,7 +275,7 @@ export class NgxTimeSchedulerComponent implements OnInit, OnDestroy, OnChanges, 
         this.header.push(this.getDatesBetweenTwoDates(ele, index));
       });
 
-      this.setItemsInSectionItems();
+    this.setItemsInSectionItems();
       this.showCurrentTimeIndicator();
   }
 
@@ -259,6 +295,12 @@ export class NgxTimeSchedulerComponent implements OnInit, OnDestroy, OnChanges, 
       this.currentTimeVisibility = 'hidden';
     }
     this.ShowCurrentTimeHandle = setTimeout(this.showCurrentTimeIndicator, 30000);
+  }
+
+  changeSections(event) {
+    // console.log(event);
+    this.currentSelect = event.value;
+    this.showSectionId.emit(event.value);
   }
 
   gotoToday() {

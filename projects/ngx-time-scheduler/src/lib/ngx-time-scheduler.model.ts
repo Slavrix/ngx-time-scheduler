@@ -31,6 +31,7 @@ export class Text {
   TodayButton: string;
   GotoButton: string;
   SectionTitle: string;
+  // SectionItems: Array<string>;
 
   constructor() {
     this.NextButton = 'Next';
